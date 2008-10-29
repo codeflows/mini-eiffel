@@ -1,0 +1,23 @@
+class gcditerative 
+feature
+gcd (m, n : INTEGER) : INTEGER is
+    local
+        other  : INTEGER
+        remain : INTEGER
+    do
+        from
+            do
+                result := m
+                remain := n
+            end
+        until
+            remain = 0
+        loop  
+            do
+                other  := result    -- can also read from the result
+                result := remain
+                remain := (other \\ result)
+            end
+        end
+    end
+end -- class gcd iteratirve

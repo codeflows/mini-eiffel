@@ -1,0 +1,88 @@
+-- Demonstration of a program that's syntactically valid
+-- but has semantic errors
+
+class SemanticErrors
+
+  feature {NONE}
+    PI : REAL is 3.14
+    someInt : INTEGER
+
+  feature {ANY}
+    theOtherOne : OtherClass
+  
+    tryingToAccessPrivateField : INTEGER is
+    local
+      other : OtherClass
+    do
+      !! other
+      result := other.myPrivateInt * 3
+    end
+    
+    invalidResult(truth : BOOLEAN) : REAL is
+    do
+      result := not truth
+    end
+    
+    nonBooleanIfsAndUntils is
+    do
+      if someInt then
+        do
+          from
+            do
+              void
+            end
+          until 1 * 2 * 3
+          loop
+            do
+              invalidResult(100.0)
+            end
+          end
+        end -- do
+      end -- if
+    end
+    
+    assigningToConstant is
+    local
+      THE_ANSWER : INTEGER is 42
+    do
+      PI := THE_ANSWER * PI / 0.001
+      THE_ANSWER := -THE_ANSWER
+    end
+    
+    ambiguity(a:INTEGER) is
+    ambiguity(a:REAL) is
+    ambiguity(a:BOOLEAN) is
+    
+    test_ambiguity is
+    do
+      ambiguity(123)
+      ambiguity(22.2)
+      ambiguity(true or false)
+      -- the next call is ambiguous
+      ambiguity(void)
+    end
+    
+    fun_with_references : OtherClass is
+    do
+      result := current.theOtherOne.mainClass.theOtherOne.mainClass.theOtherOne
+      result := current.theOtherOne.self().self().self().mainClass.theOtherOne.self()
+      -- oops
+      result := theOtherOne.self().mainClass
+    end
+      
+end
+
+class OtherClass
+
+  feature {NONE}
+    myPrivateInt : INTEGER
+
+  feature
+    mainClass : SemanticErrors
+    
+    self : OtherClass is
+    do
+      result := current
+    end
+    
+end

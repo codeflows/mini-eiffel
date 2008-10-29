@@ -1,0 +1,126 @@
+-- See the test case minieiffel.cg.CodeGeneratorTestCase,
+-- it runs this source file thru the (incomplete) code generator
+
+class BytecodeGenerationTest
+
+  feature
+    -- some fields
+    intField : INTEGER
+    realField : REAL
+    self : BytecodeGenerationTest
+    PI : REAL is 3.14
+    I : INTEGER is 100
+    B : BOOLEAN is true
+    C : CHARACTER is 'z'
+    mystery : ANY
+  
+    -- some methods
+    test(a:INTEGER; b:REAL) : REAL is
+    local
+      c:INTEGER
+      d:INTEGER is 54321
+    do
+      local
+        f:CHARACTER is 's'
+
+      c := 123
+      realField := 22.2
+
+      -- VOID
+      voidMethod()
+      self.voidMethod()
+      
+      -- user-type
+      current
+      current.self
+      self.returnCurrent()
+      returnCurrent()
+
+      -- integer operations
+      2 + 5
+      c - d
+      d \\ 'z'
+      c * (d + f)
+      c / intField
+      --current.PI
+      --self.someIntMethod()
+      
+      -- float operations
+      c * result
+      3.0 / 5.0
+      result + 100.5
+      99.9 - PI
+      
+      -- float and int
+      result * 5
+      3 / 5.0
+      result + 50
+      50 - PI
+      
+      -- float and char
+      5.0 * 'x'
+      'z' / 3.14
+      
+      -- equality
+      3 = 5
+      55.5 = 2
+      true = false
+      (2=3) = (3=3)
+      --'c' = self
+      --current = self
+
+      -- int boolean ops
+	  --c /= 5
+      --3 > d
+	  --'x' < 'z'
+      --d >= 5
+      --3 <= c
+      
+      -- real boolean ops
+      --PI = 3.14
+      --33.2 /= result
+      --result > 3.14
+      --PI < result
+      --PI >= result
+      --70.1 <= 70.2
+      
+      -- int and real boolean ops
+      --3 > 5.0
+      --PI > c
+      --3 < 5.0
+      --PI < c
+      --2 >= 2.2
+      --2.2 >= 2
+      --222 <= 222.0
+      --222.0 <= 221
+      
+      -- boolean ops
+      --true = false
+      --bool /= bool
+      --not bool
+      --bool and bool
+      --bool or bool  
+      
+      -- unary ops
+      -- -3.0
+      -- -5
+      -- -'z'
+
+    end
+    
+    someIntMethod() : INTEGER is
+    do
+      result := 3
+    end
+    
+    voidMethod() is
+
+    voidMethodWithParams(b:BOOLEAN) is
+
+    returnCurrent() : BytecodeGenerationTest is
+    do
+      result := current
+    end
+
+
+end

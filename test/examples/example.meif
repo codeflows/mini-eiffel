@@ -1,0 +1,96 @@
+-- An example that contains all the different
+-- structures available in Mini-Eiffel programs
+-- but doesn't really do anything sensible.
+
+class First
+
+  feature {NONE}
+  -- private stuff
+    i : INTEGER
+    r : REAL
+    c : CHARACTER
+    b : BOOLEAN
+    
+  feature {ANY}
+  -- public stuff
+  
+    PI : REAL is 3.14
+
+    someMethod(x:INTEGER; y:INTEGER) : BOOLEAN is
+    do
+      i := x
+      r := y * 0.5
+      result := x = y
+    end
+    
+    voidMethod is
+      -- Empty!
+
+    -- showcases conditional statements
+    conditional(i:INTEGER) is
+    do
+      if i = 1 then
+        do
+          someMethod(1, i)
+        end
+      elseif i = 2 then
+        do
+          someMethod(2, i)
+        end
+      else
+        do
+          someMethod(i*100, i)
+        end
+      end
+    end
+
+    -- demonstrates loops
+    iteration(times:INTEGER) is
+    do
+      local
+        i:INTEGER
+      from
+        do
+          i := 0
+        end
+      until i > times
+      loop
+        do
+          voidMethod()
+          i := i + 1
+        end
+      end
+    end
+  
+end
+
+class Second
+
+  feature {}
+
+    main is
+    do
+      local
+        first : First
+        result : BOOLEAN
+        piIsLargerThanThree : BOOLEAN
+        
+      -- create instance of First
+      !! first
+      
+      -- call someMethod, store the result
+      result := first.someMethod(10, 20)
+      
+      -- call voidMethod
+      first.voidMethod()
+      
+      first.conditional(1)
+      first.conditional(2)
+      first.conditional(0)
+      
+      first.iteration(10)
+      
+      piIsLargerThanThree := first.PI > 3
+    end
+
+end

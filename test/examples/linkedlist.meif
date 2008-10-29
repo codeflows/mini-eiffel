@@ -1,0 +1,109 @@
+---------------------------------------------
+class NODE
+feature
+    item : ANY
+    next : NODE
+
+    set_item (x : ANY) is
+    do
+        item := x
+    end
+
+    set_next(x : NODE) is
+    do
+        next := x
+    end
+end -- class node
+---------------------------------------------
+
+class LIST
+feature {NONE}
+    equal (a, b : ANY) : BOOLEAN is
+    do
+        result := (a = b)
+    end
+
+feature
+    count : INTEGER
+    first : NODE
+
+    empty : BOOLEAN is
+    do
+        result := (count = 0)
+    end
+
+    has (x : ANY) : BOOLEAN is
+    local
+        n : NODE
+    do
+        from
+            do
+                n := first
+            end
+        until
+            n = void or else equal(x, n.item)
+        loop
+          do
+           n := n.next
+          end -- loop body
+        end -- from
+
+        result := (n /= void)
+    end -- has()
+
+    add (x : ANY) is
+    local
+        n : NODE
+    do
+        if not has(x) then
+          do
+            !! n
+            n.set_item(x)
+            n.set_next(first)
+            first := n
+            count := (count + 1)
+          end -- if body
+        end -- if part
+    end -- add()
+
+
+    remove(x : ANY) is
+    local
+        pre, post : NODE
+    do
+        from
+          do
+            pre := first
+          end
+        until
+            pre = void or else equal (x, pre.item)
+        loop
+          do
+            post := pre
+            pre  := pre.next
+          end
+        end
+        
+        
+        
+        if pre /= void then
+          do
+            if post = void then
+                do
+                  first := pre.next
+                end
+              else
+                do
+                  post.set_next (pre.next)
+                end -- else part
+            end -- if
+
+            count := (count - 1)
+          end 
+        end
+        
+        
+    end
+
+end -- class LIST
+        

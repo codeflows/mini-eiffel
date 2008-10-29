@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+    Ant build file for the Mini-Eiffel parser.
+-->
+
+<project name="Mini-Eiffel" default="all">
+
+    <property name="main.src.dir" location="src" />
+    <property name="test.src.dir" location="test" />
+    <property name="build.dir" location=".build" />
+    <property name="main.classes.dir" location="${build.dir}/main-classes" />
+    <property name="test.classes.dir" location="${build.dir}/test-classes" />
+    <property name="junit.reports.dir" location="${build.dir}/junit-reports" />
+    <property name="javadoc.dir" location="${build.dir}/javadoc" />
+    <property name="minieiffel.jar" value="minieiffel.jar" />   
+    <property name="main.class" value="minieiffel.Main" />   
+
+    <path id="test.classpath">
+        <pathelement location="lib/junit.jar" />
+        <pathelement location="lib/easymock.jar" />
+        <pathelement location="lib/asm-2.0.RC1.jar" />
+        <pathelement location="lib/jode-1.1.2-pre1.jar" />
+        <pathelement location="${main.classes.dir}" />
+        <pathelement location="${test.classes.dir}" />
+    </path>
+ 
+    <path id="main.classpath">
+        <pathelement location="lib/asm-2.0.RC1.jar" />
+    </path>   
+    
+    <target name="compile" description="Compiles the program">
+        <mkdir dir="${main.classes.dir}" />   
+        <javac srcdir="${main.src.dir}" destdir="${main.classes.dir}">
+            <classpath refid="main.classpath"/>
+        </javac>   
+    </target>   
+    
+    <target name="compile-tests" depends="compile" description="Compiles JUnit test classes">
+        <mkdir dir="${test.classes.dir}" />   
+        <javac srcdir="${test.src.dir}" destdir="${test.classes.dir}">
+            <classpath refid="test.classpath"/>
+        </javac>
+    </target>
+ 
+    <target name="test" depends="compile-tests" description="Runs the JUnit tests">
+        <mkdir dir="${junit.reports.dir}" />   
+        <junit printsummary="yes" haltonfailure="yes">
+            <classpath refid="test.classpath" />
+            <formatter type="plain"/>
+            <batchtest todir="${junit.reports.dir}">
+                <fileset dir="${test.src.dir}">
+                    <include name="**/*TestCase.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+ 
+    <target name="jar" depends="test">
+        <jar destfile="${minieiffel.jar}">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+            <fileset dir="${main.classes.dir}" />
+        </jar>
+        <echo message="The Mini-Eiffel parser executable jar can be found at ${minieiffel.jar}" />   
+    </target>
+ 
+    <target name="javadoc">
+        <mkdir dir="${javadoc.dir}"/>   
+        <javadoc
+            packagenames="minieiffel.*"
+            sourcepath="${main.src.dir}"
+            destdir="${javadoc.dir}"
+            author="true"
+            version="true"
+            use="true"
+            windowtitle="Mini-Eiffel parser API">
+            <doctitle><![CDATA[<h1>Mini-Eiffel</h1>]]></doctitle>
+            <bottom><![CDATA[<i>Copyright &#169; 2005 Jari Aarniala.</i>]]></bottom>
+            <classpath refid="main.classpath"/>
+        </javadoc>
+    </target>
+	
+    <target name="all" depends="jar, javadoc" />
+    
+    <target name="clean" description="Deletes any created artifacts">
+        <delete includeemptydirs="true">
+            <fileset dir="${build.dir}" />
+        </delete>
+        <delete file="${minieiffel.jar}" />   
+    </target>
+
+</project>

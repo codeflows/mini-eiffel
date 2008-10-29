@@ -1,0 +1,18 @@
+class GCDRECURSIVE
+feature
+gcd (m, n : INTEGER) : INTEGER is
+    -- m and n are non-negative
+    do
+        if n = 0 then
+        do
+            -- return value of a method is stored in 'result' variable
+            result := m
+        end -- if body
+        else
+        do
+            -- multiple assigns to result is permitted
+            result := gcd (n, m \\ n)
+        end -- else
+        end -- if
+    end -- gcd()
+end -- class gcd recursive

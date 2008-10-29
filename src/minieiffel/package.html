@@ -1,0 +1,18 @@
+<html>
+ <body>
+  <p>
+    A Mini-Eiffel parser implementation.
+  </p>
+  <h3>About the exception model</h3>
+  <p>
+    As you can see from the API documentation of the parser, unchecked
+    exceptions are used throughout the code. This is a conscious choice
+    that contributes to the overall readability of the code: instead of
+    having most of the methods in Lexer (for example) declaring
+    'java.io.IOException' in their throws clause, our own version of the
+    exception is unchecked and can thus propagate up the
+    caller stack up to the point where it's handled without having
+    to declare a throws clause in each of the methods on the way.
+  </p>
+ </body>
+</html>

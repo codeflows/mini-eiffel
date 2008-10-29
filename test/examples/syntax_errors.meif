@@ -1,0 +1,18 @@
+-- Example source file demonstrating syntax errors
+
+class SyntaxErrors
+
+  feature
+  
+  method_with_a_syntax_error is
+  do
+    if true then
+    do
+      123*321
+    end
+    else
+    do
+      123/321
+    end
+  end
+end

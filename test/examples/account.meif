@@ -1,0 +1,66 @@
+class PERSON
+feature
+end
+
+class ACCOUNT 
+feature {NONE}
+        -- the same as feature {}
+        balance:     INTEGER
+
+        add(sum: INTEGER) is
+        -- add sum to the balance
+        -- visible only to features located in this class
+ 
+        do
+            balance := balance + sum
+        end -- private add
+
+
+    
+feature
+    -- the same as feature { ANY }
+    owner:           PERSON
+    minimum_balance: INTEGER is 1000
+
+    open(who: PERSON) is
+      -- Assign the account to owner who
+    do
+        owner := who
+    end -- open
+
+    deposit(sum: INTEGER) is
+      -- Deposit sum into the account
+    do
+        add(sum)
+    end -- deposit
+
+
+    withdraw(sum: INTEGER) is
+      -- Withdraw sum from the account
+    do
+        add(-sum)
+    end -- withdraw
+
+    may_withdraw(balance: INTEGER): BOOLEAN is
+      -- Is there enough to withdraw balance? 
+    do
+        -- current.balance refers to feature balance
+        result := (current.balance >= balance + minimum_balance)
+    end -- may_withdraw
+
+
+    main is
+        -- execution starts from here
+        local
+            -- declaration hides the attribute 'balance'
+            balance: ACCOUNT
+
+        do
+            -- create a new instance and bind it to variable
+            !! balance 
+
+            -- invoke a method on the variable
+            balance.deposit (1000)
+        end
+       
+end -- class ACCOUNT
